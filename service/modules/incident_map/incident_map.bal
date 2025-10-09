@@ -61,7 +61,7 @@ function broadcastIncident(Incident incident) {
         foreach websocket:Caller conn in incidentConnections {
             var result = conn->writeTextMessage(messageJson);
             if result is websocket:Error {
-                log:printError("dailed to send message to client: " + result.message());
+                log:printError("failed to send message to client: " + result.message());
             } else {
                 activeConnections.push(conn);
             }

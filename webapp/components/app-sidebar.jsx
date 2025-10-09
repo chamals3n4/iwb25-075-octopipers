@@ -50,11 +50,6 @@ import { useSession } from "next-auth/react";
 import ModeToggle from "@/components/mode-toggle";
 
 const data = {
-  user: {
-    name: "Chamal Senarathna",
-    email: "chamals004@gmail.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navMain: [
     {
       title: "Home",
@@ -90,7 +85,7 @@ const data = {
 };
 
 export function AppSidebar({ ...props }) {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [userLocation, setUserLocation] = useState(null);
 
   useEffect(() => {
@@ -108,6 +103,16 @@ export function AppSidebar({ ...props }) {
         });
     }
   }, [session]);
+
+  // Create user object from session data or use default values
+  const user = {
+    name: session?.user?.name || 
+          (session?.user?.given_name && session?.user?.family_name 
+            ? `${session.user.given_name} ${session.user.family_name}` 
+            : session?.user?.email || "Guest User"),
+    email: session?.user?.email || "user@example.com",
+    avatar: session?.user?.image || "/avatars/shadcn.jpg",
+  };
 
   return (
     <Sidebar collapsible="offcanvas" {...props}>
@@ -134,7 +139,7 @@ export function AppSidebar({ ...props }) {
       />
       <SidebarFooter>
         <div className="flex items-center justify-between w-full gap-2 px-2">
-          <NavUser user={data.user} />
+          <NavUser user={user} />
           <ModeToggle />
         </div>
       </SidebarFooter>

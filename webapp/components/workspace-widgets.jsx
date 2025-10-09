@@ -188,8 +188,23 @@ export function WorkspaceWidgets() {
       }
     } catch (error) {
       console.error("Failed to convert currency:", error);
-      setCurrencyError("Failed to convert currency");
-      setToAmount("");
+      setCurrencyError("Unable to fetch currency conversion. Using fallback rate.");
+      // Fallback to a default conversion rate
+      try {
+        const fallbackRate = base === "USD" && target === "LKR" ? 300.37 : 1;
+        const convertedAmount = (parseFloat(amount) * fallbackRate).toFixed(2);
+        setToAmount(convertedAmount);
+        setCurrencyData({
+          base,
+          target,
+          rate: fallbackRate,
+          result: parseFloat(convertedAmount),
+          timestamp: new Date().toISOString()
+        });
+      } catch (fallbackError) {
+        setToAmount("");
+        setCurrencyData(null);
+      }
     } finally {
       setCurrencyLoading(false);
     }
@@ -282,7 +297,7 @@ export function WorkspaceWidgets() {
             <CardDescription>
               {currencyData
                 ? `${new Date(currencyData.timestamp).toLocaleString()} · From `
-                : "Aug 9, 13:22 UTC · From "}
+                : "Using fallback rate · From "}
               <a href="https://hexarate.paikama.co/" target="_blank">
                 HexaRate
               </a>
@@ -290,8 +305,8 @@ export function WorkspaceWidgets() {
           </CardHeader>
           <CardContent className="space-y-3">
             {currencyError && (
-              <div className="text-center text-red-500 text-sm">
-                Failed to convert currency
+              <div className="text-center text-yellow-600 text-sm">
+                {currencyError}
               </div>
             )}
             <div className="grid grid-cols-12 gap-3">

@@ -174,11 +174,11 @@ Error details: ${error.message}`);
     };
 
     const quickQuestions = [
-        "What are the best cities to visit in Sri Lanka?",
-        "Tell me about Colombo's attractions",
+        "What are the best cities to visit?",
+        "Tell me about top attractions in popular cities",
         "Which city has the best food scene?",
-        "What's the weather like in Kandy?",
-        "How safe are Sri Lankan cities for tourists?",
+        "What's the weather like in different cities?",
+        "How safe are cities for tourists?",
     ];
 
     return (
@@ -218,7 +218,7 @@ Error details: ${error.message}`);
                                 </div>
                                 <div>
                                     <h3 className="font-semibold text-gray-900">City AI Assistant</h3>
-                                    <p className="text-xs text-gray-500">Ask me anything about Sri Lankan cities</p>
+                                    <p className="text-xs text-gray-500">Ask me anything about cities</p>
                                 </div>
                             </div>
                             <Button

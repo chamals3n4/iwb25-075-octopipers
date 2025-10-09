@@ -40,10 +40,20 @@ export default function CityDetailPage({ params }) {
                         rank: c.rankPosition ?? c.rank ?? 0,
                         images: Array.isArray(c.imageUrls) ? c.imageUrls : [],
                         image: Array.isArray(c.imageUrls) && c.imageUrls.length > 0 ? c.imageUrls[0] : "/placeholder.svg",
-                        amenities: Array.isArray(c.amenities) ? c.amenities : [],
+                        amenities: c.amenities || [], // Keep amenities as is, let CityOverview handle parsing
                         population: c.population ?? 0,
                         temperature: c.temperature ?? 0,
                         ratingsBreakdown: c.ratingsBreakdown || {},
+                        totalRatings: c.totalRatings ?? 0,
+                        costOfLiving: c.costOfLiving ?? 0,
+                        safety: c.safety ?? 0,
+                        transportation: c.transportation ?? 0,
+                        healthcare: c.healthcare ?? 0,
+                        food: c.food ?? 0,
+                        nightlife: c.nightlife ?? 0,
+                        culture: c.culture ?? 0,
+                        outdoorActivities: c.outdoorActivities ?? 0,
+                        internetSpeed: c.internetSpeed ?? 0,
                     }
                     setCity(mapped)
                 } else {
@@ -62,12 +72,12 @@ export default function CityDetailPage({ params }) {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-white">
+            <div className="min-h-screen bg-background">
                 <div className="max-w-6xl mx-auto px-4 py-8">
                     <div className="flex items-center justify-center min-h-96">
                         <div className="text-center">
                             <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4" />
-                            <p className="text-gray-600">Loading city details...</p>
+                            <p className="text-muted-foreground">Loading city details...</p>
                         </div>
                     </div>
                 </div>
@@ -79,7 +89,7 @@ export default function CityDetailPage({ params }) {
         return (
             <div className="min-h-screen bg-background flex items-center justify-center">
                 <div className="text-center">
-                    <MapPin className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                    <MapPin className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
                     <h1 className="text-2xl font-bold mb-4">City Not Found</h1>
                     <p className="text-muted-foreground mb-4">
                         The city you're looking for doesn't exist yet. Start by adding cities to the database.
@@ -115,10 +125,10 @@ export default function CityDetailPage({ params }) {
                         </div>
                         <div className="flex items-center gap-1">
                             <Star className="w-4 h-4 fill-current text-amber-500" />
-                            <span>{city.rating}</span>
+                            <span>{city.rating.toFixed(1)}</span>
                         </div>
                         <Badge className="bg-amber-500 text-white">
-                            Rank #{city.rank}
+                            Rank #{city.rank > 0 ? city.rank : 'N/A'}
                         </Badge>
                     </div>
                 </div>

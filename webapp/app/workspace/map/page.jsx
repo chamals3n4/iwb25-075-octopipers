@@ -101,6 +101,9 @@ export default function IncidentMapPage() {
         infoWindowRef.current = new google.maps.InfoWindow();
 
         map.current.addListener("dblclick", (e) => {
+          // Prevent multiple rapid double clicks
+          if (isDialogOpen) return;
+          
           const lat = e.latLng.lat();
           const lng = e.latLng.lng();
           setFormData((prev) => ({
@@ -211,6 +214,12 @@ export default function IncidentMapPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Prevent duplicate submissions
+    if (isSubmitting) {
+      return;
+    }
+    
     setIsSubmitting(true);
 
     try {
@@ -265,7 +274,8 @@ export default function IncidentMapPage() {
           latitude: "",
           longitude: "",
         });
-        setIsDialogOpen(false);
+        // Close dialog after a brief delay to ensure state updates
+        setTimeout(() => setIsDialogOpen(false), 100);
       } else {
         console.error("Failed to create incident:", result.error);
         // You could add a toast notification here
@@ -310,7 +320,7 @@ export default function IncidentMapPage() {
 
       <Dialog
         open={isDialogOpen}
-        onOpenChange={(open) => open && setIsDialogOpen(open)}
+        onOpenChange={setIsDialogOpen}
       >
         <DialogContent className="sm:max-w-[425px] [&>button]:hidden">
           <div className="absolute right-3 top-3 z-50">

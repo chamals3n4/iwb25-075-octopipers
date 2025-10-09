@@ -1,6 +1,9 @@
-## NomadPage
 
-NomadPage is a platform designed to support digital nomads who plan to live and work from Sri Lanka. Our goal is to create a centralized hub for all the resources nomads need. This project was developed for the Innovate with Ballerina 2025 competition.
+---
+
+# NomadPage
+
+NomadPage is a platform designed to support digital nomads who plan to live and work from Sri Lanka. Our goal is to create a centralized hub for all the resources nomads need.
 
 ## Tech Stack
 
@@ -21,12 +24,14 @@ Before you start, make sure you have installed:
 
 ## Setup Process
 
-### 1. Clone the forked repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/<username>/iwb25-075-octopipers.git
 cd iwb25-075-octopipers
 ```
+
+---
 
 ### 2. Backend Setup (Ballerina Service)
 
@@ -77,6 +82,8 @@ bal run
 
 Backend available at: `http://localhost:8080`
 
+---
+
 ### 3. Frontend Setup (Next.js)
 
 #### 3.1 Install Dependencies
@@ -105,10 +112,10 @@ AUTH_ASGARDEO_ISSUER="https://api.asgardeo.io/t/<org-name>/oauth2/token"
 
 NEXT_PUBLIC_AUTH_ASGARDEO_LOGOUT_URL="https://api.asgardeo.io/t/<org-name>/oidc/logout"
 NEXT_PUBLIC_AUTH_ASGARDEO_POST_LOGOUT_REDIRECT_URL="http://localhost:3000/auth/sign-out"
-
 ```
 
-4. **Configure Backend Authentication** - In your `service.bal` file, update the JWT validator configuration:
+4. **Configure Backend Authentication**
+   Update the JWT validator configuration in `service.bal`:
 
 ```ballerina
 auth: [
@@ -133,6 +140,8 @@ npm run dev
 ```
 
 Frontend available at: `http://localhost:3000`
+
+---
 
 ### 4. News Scraper Setup (Flask + BeautifulSoup4)
 
@@ -170,7 +179,6 @@ News scraper runs at: `http://localhost:5000/latest-news`
 - **Co-working Places** - Discover work-friendly spaces
 - **Utility Tools** - Currency conversion, time zones, weather, and latest news
 
-## Ballerina capabilities we used
 
 - **HTTP** - RESTful API endpoints with resource functions
 - **WebSocket** - Real-time bidirectional communication for chat , meetups and incidents

@@ -2,14 +2,16 @@
 
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Phone, Edit, Check, X, Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
+import PhoneInput from 'react-phone-number-input';
+import 'react-phone-number-input/style.css'; // Import the default styles
 
 export function MobileNumberCard() {
     const { data: session } = useSession();
     const [mobileNumber, setMobileNumber] = useState("");
+    const [prevMobileNumber, setPrevMobileNumber] = useState("");
     const [isEditing, setIsEditing] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
@@ -55,7 +57,7 @@ export function MobileNumberCard() {
     };
 
     const handleSave = async () => {
-        if (!mobileNumber.trim()) {
+        if (!mobileNumber) {
             setError("Mobile number is required");
             return;
         }
@@ -75,7 +77,7 @@ export function MobileNumberCard() {
                     'Authorization': `Bearer ${session.access_token}`
                 },
                 body: JSON.stringify({
-                    mobileNumber: mobileNumber.trim()
+                    mobileNumber: mobileNumber
                 })
             });
 
@@ -94,9 +96,14 @@ export function MobileNumberCard() {
     };
 
     const handleCancel = () => {
+        setMobileNumber(prevMobileNumber);
         setIsEditing(false);
         setError("");
-        // Don't refetch - just cancel editing
+    };
+
+    const handleEdit = () => {
+        setPrevMobileNumber(mobileNumber);
+        setIsEditing(true);
     };
 
     // Don't render if no session
@@ -124,7 +131,7 @@ export function MobileNumberCard() {
                     <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => setIsEditing(true)}
+                        onClick={handleEdit}
                         className="h-6 w-6 p-0 hover:bg-muted"
                     >
                         <Edit className="h-3 w-3" />
@@ -138,15 +145,18 @@ export function MobileNumberCard() {
         <Card className="px-3 py-2 bg-muted/50 border-muted">
             <div className="flex items-center gap-2">
                 <Phone className="h-4 w-4 text-muted-foreground" />
-                <div className="flex items-center gap-1">
-                    <Input
+                <div className="flex-1">
+                    <PhoneInput
+                        international
+                        defaultCountry="US"
                         value={mobileNumber}
-                        onChange={(e) => setMobileNumber(e.target.value)}
-                        placeholder="Enter mobile number"
-                        className="h-6 text-sm border-0 bg-transparent p-0 focus-visible:ring-0"
+                        onChange={setMobileNumber}
                         disabled={isSaving}
+                        style={{ display: 'flex', flexDirection: 'column' }}
+                        inputClassName="h-6 text-sm border-0 bg-transparent p-0 focus-visible:ring-0 flex-1"
+                        containerClassName="flex-1"
                     />
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-1 mt-2">
                         <Button
                             variant="ghost"
                             size="sm"

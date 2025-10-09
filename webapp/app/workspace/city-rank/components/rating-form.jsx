@@ -8,33 +8,14 @@ import { getAuthHeaders } from "@/lib/api"
 import { useSession } from "next-auth/react"
 
 const ratingCategories = [
-    { id: "cost", label: "Cost of Living", emoji: "💰", description: "Overall affordability" },
-    { id: "internet", label: "Internet Speed", emoji: "📶", description: "Connection quality" },
-    { id: "fun", label: "Fun & Entertainment", emoji: "🎉", description: "Activities and nightlife" },
+    { id: "costOfLiving", label: "Cost of Living", emoji: "💰", description: "Overall affordability" },
     { id: "safety", label: "Safety", emoji: "🛡️", description: "General security" },
-    { id: "safeWomen", label: "Safe for Women", emoji: "👩", description: "Women safety level" },
-    { id: "safeLGBTQ", label: "Safe for LGBTQ+", emoji: "🌈", description: "LGBTQ+ friendliness" },
-    { id: "foodSafety", label: "Food Safety", emoji: "🤮", description: "Food hygiene standards" },
-    { id: "crime", label: "Lack of Crime", emoji: "👮‍♀️", description: "Low crime rates" },
-    { id: "racism", label: "Lack of Racism", emoji: "🤝", description: "Racial tolerance" },
-    { id: "education", label: "Education Level", emoji: "🎓", description: "Educational standards" },
-    { id: "powerGrid", label: "Power Grid", emoji: "⚡️", description: "Electricity reliability" },
-    { id: "climate", label: "Climate Resilience", emoji: "🌊", description: "Climate change vulnerability" },
-    { id: "income", label: "Income Level", emoji: "💰", description: "Average income" },
-    { id: "english", label: "English Speaking", emoji: "🙊", description: "English proficiency" },
-    { id: "density", label: "People Density", emoji: "😤", description: "Population density" },
-    { id: "walkability", label: "Walkability", emoji: "🚶", description: "Walking friendliness" },
-    { id: "traffic", label: "Traffic Safety", emoji: "🚦", description: "Road safety" },
-    { id: "airline", label: "Airline Scores", emoji: "✈️", description: "Airport quality" },
-    { id: "luggage", label: "Lost Luggage", emoji: "🧳", description: "Baggage handling" },
-    { id: "happiness", label: "Happiness", emoji: "😄", description: "General happiness" },
-    { id: "nightlife", label: "Nightlife", emoji: "🍸", description: "Night entertainment" },
-    { id: "wifi", label: "Free WiFi", emoji: "📶", description: "WiFi availability" },
-    { id: "workspace", label: "Work Spaces", emoji: "🖥", description: "Coworking options" },
-    { id: "climate_control", label: "A/C or Heating", emoji: "❄️", description: "Climate control" },
-    { id: "foreigners", label: "Friendly to Foreigners", emoji: "😁", description: "Foreigner friendliness" },
-    { id: "speech", label: "Freedom of Speech", emoji: "🗯", description: "Expression freedom" },
-    { id: "startup", label: "Startup Score", emoji: "🎅", description: "Startup ecosystem" },
+    { id: "transportation", label: "Transportation", emoji: "🚗", description: "Public transport quality" },
+    { id: "healthcare", label: "Healthcare", emoji: "🏥", description: "Medical care quality" },
+    { id: "food", label: "Food Quality", emoji: "🍽️", description: "Local cuisine and food safety" },
+    { id: "nightlife", label: "Nightlife", emoji: "🍸", description: "Night entertainment options" },
+    { id: "culture", label: "Culture", emoji: "🎭", description: "Cultural attractions and events" },
+    { id: "outdoorActivities", label: "Outdoor Activities", emoji: "🌳", description: "Parks, hiking, outdoor fun" },
 ]
 
 const ratingLabels = ["Bad", "Okay", "Good", "Great", "Amazing"]
@@ -44,6 +25,7 @@ export default function ComprehensiveRatingForm({ cityName = "Colombo", selected
     const [review, setReview] = useState("")
     const { data: session } = useSession()
     const displayCityName = selectedCity?.name || cityName
+    const actualUserId = session?.user?.id || userId
 
     const handleRatingChange = (categoryId, rating) => {
         setRatings((prev) => ({ ...prev, [categoryId]: rating }))
@@ -53,18 +35,18 @@ export default function ComprehensiveRatingForm({ cityName = "Colombo", selected
         e.preventDefault()
         if (!selectedCity?.cityId) return
 
-        // Map UI ratings to backend schema
+        // Map UI ratings to exact backend schema
         const payload = {
-            userId: userId,
+            userId: actualUserId,
             ratings: {
-                costOfLiving: Number(ratings.cost || 3),
+                costOfLiving: Number(ratings.costOfLiving || 3),
                 safety: Number(ratings.safety || 3),
-                transportation: Number(ratings.transport || 3),
-                healthcare: Number(ratings.education || 3),
-                food: Number(ratings.foodSafety || 3),
-                nightlife: Number(ratings.nightlife || ratings.fun || 3),
-                culture: Number(ratings.happiness || 3),
-                outdoorActivities: Number(ratings.walkability || 3),
+                transportation: Number(ratings.transportation || 3),
+                healthcare: Number(ratings.healthcare || 3),
+                food: Number(ratings.food || 3),
+                nightlife: Number(ratings.nightlife || 3),
+                culture: Number(ratings.culture || 3),
+                outdoorActivities: Number(ratings.outdoorActivities || 3),
             },
             reviewText: review || undefined,
         }
