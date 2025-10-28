@@ -1,7 +1,4 @@
-
----
-
-# NomadPage
+## NomadPage
 
 NomadPage is a platform designed to support digital nomads who plan to live and work from Sri Lanka. Our goal is to create a centralized hub for all the resources nomads need.
 
@@ -179,11 +176,10 @@ News scraper runs at: `http://localhost:5000/latest-news`
 - **Co-working Places** - Discover work-friendly spaces
 - **Utility Tools** - Currency conversion, time zones, weather, and latest news
 
+## Ballerina capabilities  used
 
 - **HTTP** - RESTful API endpoints with resource functions
 - **WebSocket** - Real-time bidirectional communication for chat , meetups and incidents
 - **PostgreSQL Connector** - Database connectivity with connection pooling
-- **AWS S3 Connector** - Cloud storage integration for file uploads
-- **JWT Authentication** - Service-level JWT validation with WSO2 Asgardeo OIDC
-- **External HTTP Client** - Integration with weather, currency, and AI APIs
-- **Modular Architecture** - Organized service modules with proper separation of concerns
+- **AWS S3 Connector** 
+- **JWT** - Service-level JWT validation with WSO2 Asgardeo OIDC
