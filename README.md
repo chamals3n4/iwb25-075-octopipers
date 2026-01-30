@@ -2,6 +2,10 @@
 
 NomadPage is a platform designed to support digital nomads who plan to live and work from Sri Lanka. Our goal is to create a centralized hub for all the resources nomads need.
 
+The platform simplifies the relocation experience by bringing essential information into one place, allowing digital nomads to easily access everything they need through a single system tailored specifically for Sri Lanka.
+
+We built this solution as part of the [Innovate with Ballerina](https://innovatewithballerina.com/) competition organized by the University of Moratuwa in partnership with WSO2.
+
 ## Tech Stack
 
 **Frontend:** Next.js 15, Tailwind CSS, Shadcn/ui  
